@@ -1,0 +1,34 @@
+.graphtitlecontainer{
+	background-color : #fff;
+}
+.graphpagetitle{
+	color: #000;
+	font-size : 20px;
+	padding:10px;
+}
+.graphcontainer{
+	margin-top : 10px;
+	margin-bottom : 10px!important;
+}
+.subcontainer1{
+	height:100%;
+	width : 49%;
+	float:left;
+}
+.subcontainer2{
+	height:100%;
+	width : 49%;
+	float:right;
+}
+.title{
+	color:#00A6EB;
+	font-size:18px;
+	font-weight:bold;
+	padding:10px;
+}
+.myanchor{
+	color : #fff;
+}
+.myanchor:hover{
+	color : #fff;
+}

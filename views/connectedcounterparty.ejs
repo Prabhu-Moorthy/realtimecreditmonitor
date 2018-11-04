@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<title>EWS</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/slider.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
+<script> 
+    $(document).ready(function() { 	  
+	{ 
+		$("#dashboardTable")
+			.tablesorter({widthFixed: true, widgets: ['zebra']}); 
+		}
+
+		$('#homeMenu').click(function(e){
+			e.preventDefault();
+			var form = $('<form method="POST" action="/auth"><input type="hidden" id="username" name="username" value="internal"/></form>');
+			$(document.body).append(form);
+			form.append('<input type="hidden" name="id" value="4"/>');
+			form.submit();
+		});
+	});
+</script>
+</head>
+<body>
+	<div id="container" class="width">
+		<header> 
+			<div class="width">
+				<img style="padding-top: 7px" src="images/EWSLogo.png" />
+				<nav>
+					<ul class="sf-menu dropdown">
+						<li><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+						<li><a href="/chat"><i class="fa fa-comments"></i>Chat</a></li>
+						<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+					</ul>
+					<div class="clear"></div>
+				</nav>
+			</div>
+			<div class="clear"></div>
+		</header>
+		<div id="intro">
+			<div class="width">
+				<div class="intro-content">
+					<h2>News Analytics for Counterparty Credit Risk </h2>
+					<p>Connected Counterparties for <span><%=data.cp_name%></span></p> 
+				</div>
+			</div>    
+		</div>
+		<div id="body" class="width">
+			<section id="content" class="single-column">
+				<table style="background: #fbf4ae;color: black;">
+					<tr>
+						<td>Counterparty Name: <b><%=data.cp_name%></b></td>
+						<td>Parent Name: <b><%=data.ult_parnt_name%></b></td>
+						<td>CNA Score: <b><%=data.ad_score%></b></td>
+						<td>Country of Domicile: <b><%=data.cdc_cntry_risk%></b></td>
+					</tr>
+				</table>
+				<table id="dashboardTable" class="tablesorter">
+					<thead>
+						<tr>
+							<th>Connected Counterparty</th>
+							<th>Ultimate Parent Name</th>
+							<th>Nature of Relationship</th>
+							<th style="width:11%">MTM Net(Mn $)</th>
+							<th>CVA</th>
+							<th style="width:11%">News Analytics Score</th>
+							<th>Credit Rating</th>
+							<th>Last Refresh Time</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% if(data.ccpl != null && data.ccpl.length){ 
+						for(var i = 0;i < data.ccpl.length;i++) { %>
+						<tr>
+							<td><a href="counterpartydetails?cp_id=<%=data.ccpl[i].CM_CP_ID%>&cp_name=<%=data.ccpl[i].CM_CP_NAME%>&ult_parnt_name=<%=data.ccpl[i].CM_ULT_PARNT_NAME%>&ad_score=<%=data.ccpl[i].AD_SCORE%>"><%=data.ccpl[i].CM_CP_NAME%></a></td>
+							<td><%=data.ccpl[i].CM_ULT_PARNT_NAME%></td>
+							<td><%=data.ccpl[i].CM_NTR_RLTN%></td>
+							<td style="text-align:right"><%=data.ccpl[i].CDC_MTM_NET%></td>
+							<td style="text-align:right"><%=data.ccpl[i].CDC_CVA%></td>
+							<%if(data.ccpl[i].AD_SCORE <= 40 ) {%>
+								<td style="text-align:right;background-color: green;"><a href="analytics?cp_id=<%=data.ccpl[i].CM_CP_ID%>&cp_name=<%=data.ccpl[i].CM_CP_NAME%>"><span style="color: white;"><%=data.ccpl[i].AD_SCORE%></span></a></td>
+							<%}else if(data.ccpl[i].AD_SCORE > 40 && data.ccpl[i].AD_SCORE < 70) {%>
+								<td style="text-align:right;background-color: yellow;"><a href="analytics?cp_id=<%=data.ccpl[i].CM_CP_ID%>&cp_name=<%=data.ccpl[i].CM_CP_NAME%>"><span style="color: black;"><%=data.ccpl[i].AD_SCORE%></span></a></td>
+							<%}else if(data.ccpl[i].AD_SCORE >= 70 && data.ccpl[i].AD_SCORE < 80) {%>
+								<td style="text-align:right;background-color: orange;"><a href="analytics?cp_id=<%=data.ccpl[i].CM_CP_ID%>&cp_name=<%=data.ccpl[i].CM_CP_NAME%>"><span style="color: black;"><%=data.ccpl[i].AD_SCORE%></span></a></td>
+							<%}else{%>
+								<td style="text-align:right;background-color: red;"><a href="analytics?cp_id=<%=data.ccpl[i].CM_CP_ID%>&cp_name=<%=data.ccpl[i].CM_CP_NAME%>"><span style="color: white;"><%=data.ccpl[i].AD_SCORE%></span></a></td>
+							<%}%>
+							<td><%=data.ccpl[i].CM_CURRENT_RATING%></td>
+							<td><%=data.ccpl[i].AD_SCORE_UPDTIME%></td>
+						</tr>
+						<% }
+							}else{ %>
+						<tr>
+							<td colspan="8">No Data</td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+				<div>
+					<table style="width:215px;float:right;font-size: 12px">
+						<tr>
+							<td>
+								<div class="foo green"></div>Low Risk
+							</td>
+							<td>
+								<div class="foo yellow"></div>Caution
+							</td>
+							<td>
+								<div class="foo orange"></div>Alarming
+							</td>
+							<td>
+								<div class="foo red"></div>Extremely Alarming
+							</td>
+						</tr>
+					</table>
+				</div>
+				<% if(data.ccpl != null && data.length && data.length > 20){ %>
+				<div id="pager" class="pager">
+					<form>
+						<img src="images/first.png" class="first"/>
+						<img src="images/prev.png" class="prev"/>
+						<input type="text" value="1/1" class="pagedisplay" disabled="true"/>
+						<img src="images/next.png" class="next"/>
+						<img src="images/last.png" class="last"/>
+						<select class="pagesize">
+							
+							<option value="10">10 per page</option>
+							<option value="15">15 per page</option>
+							<option value="20">20 per page</option>
+							<option value="50">50 per page</option>
+				
+						</select>
+					</form>
+				</div>
+				<% } %>
+			</section>
+			<div class="clear"></div>
+		</div>
+		<footer class="width">
+			<div class="footer-bottom">
+				<p>TCS 2017 <a href="http://tcs.com/">Early Warning System</a> by TCS</p>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

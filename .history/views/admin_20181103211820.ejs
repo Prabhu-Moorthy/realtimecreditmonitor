@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<title>RCRM</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/jqcloud.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="js/admin.js"></script>
+	<style>
+		.btn {
+			border: none;
+			color: white;
+			padding: 14px 28px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		.success {background-color: #4CAF50;} /* Green */
+		.success:hover {background-color: #46a049;}
+
+		.glow {
+			text-align: center;
+			margin: 0px 0 0px 0;
+			font-size: 2em;
+			color: #228DFF;
+			font-family: Iceland;
+			-webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+			-moz-animation: neon2 1.5s ease-in-out infinite alternate;
+			animation: neon2 1.5s ease-in-out infinite alternate;  
+		}
+
+
+		@keyframes neon2 {
+		from {
+			text-shadow: 0 0 10px #fff,
+			0 0 20px #fff,
+			0 0 30px #fff,
+			0 0 40px #228DFF,
+			0 0 70px #228DFF,
+			0 0 80px #228DFF,
+			0 0 100px #228DFF,
+			0 0 150px #228DFF;
+		}
+		to {
+			text-shadow: 0 0 5px #fff,
+			0 0 10px #fff,
+			0 0 15px #fff,
+			0 0 20px #228DFF,
+			0 0 35px #228DFF,
+			0 0 40px #228DFF,
+			0 0 50px #228DFF,
+			0 0 75px #228DFF;
+		}
+		}
+	
+	</style>
+</head>
+<body>
+	<div id="container" class="width">
+		<header> 
+			<div class="width">
+				<h1><a href="/">Real - Time Credit Risk Monitor <strong> by TCS</strong></a></h1>
+				<nav>
+					<ul class="sf-menu dropdown">
+						<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+					</ul>
+					<div class="clear"></div>
+				</nav>
+			</div>
+			<div class="clear"></div>
+		</header>
+		<div id="intro">
+			<div class="width">
+				<div class="intro-content">
+					<h2>Administrator Controls</h2>
+					<p></p>
+				</div>
+			</div>    
+		</div>
+		<div id="body" class="width">
+			<section id="content" class="single-column">
+				<div class="w3-container w3-display-middle">
+					<table>
+						<tr>
+							<td style="padding-right:150px;border-bottom:0px">
+								<form id="crawlFrm" id="auth-form">
+									<center><button class="btn success" type="submit">Crawl</button></center>
+								</form>
+							</td>
+							<td style="border-bottom:0px">
+								<form id="scoreFrm" id="auth-form">
+									<center><button class="btn success" type="submit">Score</button></center>
+								</form>
+							</td>
+						</tr>
+						<tr style="border-bottom:0px">
+							<td style="border-bottom:0px">
+								<span id="crawlMsg" class="glow" style="display:none"><h3>Crawling Completed</h3></span>
+							</td>
+							<td style="border-bottom:0px">
+								<span id="scoreMsg"  class="glow" style="display:none"><h3>Scoring Completed</h3></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="id01" class="w3-modal">
+					<div class="w3-modal-content" style="width:500px;background-color: #fcfdf5">
+						<div class="w3-container">
+							<img alt="TCS Logo" src="images/watson.gif"><img style="padding-bottom:25px" alt="TCS Logo" src="images/processing.gif">
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="clear"></div>
+		</div>
+		<footer class="width">
+			<div class="footer-bottom">
+				<p>TCS 2018 <a href="http://tcs.com/">Real - Time Credit Risk Monitor</a> by TCS</p>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

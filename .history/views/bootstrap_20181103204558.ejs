@@ -1,0 +1,686 @@
+<!-- saved from url=(0538)https://docs-secure-cdn.fresco.me/system/attachments/files/003/255/635/original/df22ce4b862d3e9da245eed89ef949425c6e4d57/chart.html?Expires=1540885011&Signature=QF-thgnoxtj4~KJncFrI1l1~24cT4lyk0nLjLzItmppXcYtx2k1ToOUDCWqDpj-CFdYFmql~xfoSfRIOuUxesphzi51J6Ru4zVUzbjNGTxJ00Dq2omTCrRJ~nxQbby61xNO2id4wWGPBX0G4jssAgl5nbtT8eCSJL14dLhlIu7ebZHYmH6pUeEAYLL-hvB-fgaG5h9yBj6UGTs-m39TDvSeHLwA~OQ73aP57IhLs3r61BrstoSqswrDo2t4GrN986eI2KwvUY8we~aQ2J-TftuaVO7PQALf5LE892U887HwqdTsRIn3NNgZEnzRLyPI258XIVQNjcWla0OfeA-VNiQ__&Key-Pair-Id=APKAJUTRVJCFRZY3Z43A -->
+<!DOCTYPE html>
+<html>
+<title>RCRM</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/series-label.js"></script>
+<script type="text/javascript" src="js/exporting.js"></script>
+<script type="text/javascript" src="js/offline-exporting.js"></script>
+<script type="text/javascript" src="js/export-data.js"></script>    
+
+<style type="text/css">
+/*
+    #container1,
+    #container2,
+    #container3 {
+        padding: 10px;
+    }*/
+
+    /* 
+    #part1,
+    #part2,
+    #part3 {
+
+    } */
+
+    .nopadding {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .labels {
+        /* height:100px;  */
+        float: left;
+        margin-left: 10px;
+    }	
+</style>
+</head>
+<body ng-app="myApp" ng-controller="myctrl">
+	<div id="container" class="width">
+			<header> 
+					<div class="width">
+							<img style="padding-top: 7px" src="images/EWSLogo.png" />
+							<nav>
+									<ul class="sf-menu dropdown">
+										<li><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+										<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+									</ul>
+									<div class="clear"></div>
+							</nav>
+					</div>
+					<div class="clear"></div>
+			</header>
+			<div id="intro">
+					<div class="width">
+							<div class="intro-content">
+                                    <h2>Real - Time Credit Risk Monitor</h2>
+                                    <p><%=data.CM_CP_NAME%></p> on <p><%=data.BR_CRAWLING_DATE%></p>
+							</div>
+					</div>    
+			</div>
+			<div id="body" class="width">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6" style="left: -4%;">
+                            <div id="Part1">
+                                <div class="row nopadding">
+                                    <div id="container1">
+                                    </div>
+                                    <div class="labels">
+                                        <div class="row nopadding">
+                                            <div class="col-sm-12">
+                                                Current Obligator Risk Rating (ORR) : <%=data.BR_CRNT_OBLI_RATING%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                Risk Rating Transition : <%=data.BR_DIFFERENCE%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                    Highest Transition : <%=data.BR_HIGHEST_CHANGE_ORR_MAX%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    Drivers Of Adverse Changes : <%=data.BR_DRIVERS_OF_CHANGE%>
+                                                </div>
+                                        </div>
+            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="left: -1%;">
+                            <div id="Part2">
+                                <div class="row nopadding">
+                                    <div id="container2"></div>
+                                    <div class="labels">
+                                        <div class="row nopadding">
+                                            <div class="col-sm-12">
+                                                Current IR/MR : <%=data.PR_RATING_MR_AND_IR%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                Risk Rating Transition : <%=data.PR_DIFFERENCE%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                    Highest Transition : <%=data.PR_RATING_MR_AND_IR_MAX%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                    Drivers Of Adverse Changes : <%=data.PR_DRIVERS_OF_CHANGE_MR_AND_IR%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" style="left: -4%;">
+                            <div id="Part3">
+                                <div class="row nopadding">
+                                    <div id="container3" data-highcharts-chart="2"></div>
+                                    <div class="labels">
+                                        <div class="row nopadding">
+                                            <div class="col-sm-12">
+                                                Current Collateral Risk Rating : <%=data.CR_CRNT_CLTRL_RATING%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                Risk Rating Transition : <%=data.CR_DIFFERENCE%>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                    Highest Transition : <%=data.CR_CRNT_CLTRL_RATING_MAX%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                        Drivers Of Adverse Changes : <%=data.CR_DRIVERS_OF_CHANGE%>
+                                                </div>
+                                        </div>
+            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="holdingperiod" style="left: 34%;top: 20%;position: relative;">
+                                    <div class="row nopadding">
+                                            <div class="col-sm-12">
+                                                Holding Period
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <select id="holdingPeriodSelect">
+                                                    <option value="10" selected>10</option>
+                                                    <option value="20">20</option>
+                                                </select>
+                                            </div>
+                                <div id="Part4">
+                                    <div class="row nopadding">
+                                        <div class="labels" id="eq10">
+                                            <div class="row nopadding">
+                                                <div class="col-sm-12">
+                                                    Equity : <%=data.CLD_COLLATERAL_HAIRCUT_MCS_EQUITY_10%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    Interest Rate : <%=data.CLD_COLLATERAL_HAIRCUT_MCS_INTEREST_RATE_10%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                        Available Collateral : <%=data.CLD_AVAILABLE_COLLATERAL_10%>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="labels" id="eq20" style="visibility: hidden;position: absolute;">
+                                            <div class="row nopadding">
+                                                <div class="col-sm-12">
+                                                    Equity : <%=data.CLD_COLLATERAL_HAIRCUT_MCS_EQUITY_20%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    Interest Rate : <%=data.CLD_COLLATERAL_HAIRCUT_MCS_INTEREST_RATE_20%>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    Available Collateral : <%=data.CLD_AVAILABLE_COLLATERAL_20%>
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<footer class="width">
+							<div class="footer-bottom">
+									<p>TCS 2018 <a href="http://tcs.com/">Commercial Credit Risk Monitoring </a> by TCS</p>
+							</div>
+			</footer>
+    </div>	
+    <script>
+        $(document).ready(function()
+        { 
+
+            
+
+            $('#holdingPeriodSelect').change(function(e){
+                var selectedVal = ($('#holdingPeriodSelect').val())
+                if(selectedVal == 20){
+                    $('#eq10').css("visibility","hidden");
+                    $('#eq20').css("visibility","visible");
+                }else{
+                    $('#eq20').css("visibility","hidden");
+                    $('#eq10').css("visibility","visible");
+                }
+            }); 
+
+            $('#homeMenu').click(function(e){
+                e.preventDefault();
+                var form = $('<form method="POST" action="/auth"><input type="hidden" id="username" name="username" value="internal"/></form>');
+                $(document.body).append(form);
+                form.append('<input type="hidden" name="id" value="4"/>');
+                form.submit();
+            });    
+
+        });
+
+        Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
+            proceed.call(this);
+            this.container.style.background =
+                'url(https://www.highcharts.com/samples/graphics/sand.png)';
+        });
+    
+    
+        Highcharts.theme = {
+            colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+                '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+            chart: {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                    stops: [
+                        [0, '#2a2a2b'],
+                        [1, '#3e3e40']
+                    ]
+                },
+                style: {
+                    fontFamily: '\'Unica One\', sans-serif'
+                },
+                plotBorderColor: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase',
+                    fontSize: '20px'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase'
+                }
+            },
+            xAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+    
+                    }
+                }
+            },
+            yAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                tickWidth: 1,
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                style: {
+                    color: '#F0F0F0'
+                }
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        color: '#B0B0B3'
+                    },
+                    marker: {
+                        lineColor: '#333'
+                    }
+                },
+                boxplot: {
+                    fillColor: '#505053'
+                },
+                candlestick: {
+                    lineColor: 'white'
+                },
+                errorbar: {
+                    color: 'white'
+                }
+            },
+            legend: {
+                itemStyle: {
+                    color: '#E0E0E3'
+                },
+                itemHoverStyle: {
+                    color: '#FFF'
+                },
+                itemHiddenStyle: {
+                    color: '#606063'
+                }
+            },
+            credits: {
+                style: {
+                    color: '#666'
+                }
+            },
+            labels: {
+                style: {
+                    color: '#707073'
+                }
+            },
+    
+            drilldown: {
+                activeAxisLabelStyle: {
+                    color: '#F0F0F3'
+                },
+                activeDataLabelStyle: {
+                    color: '#F0F0F3'
+                }
+            },
+    
+            navigation: {
+                buttonOptions: {
+                    symbolStroke: '#DDDDDD',
+                    theme: {
+                        fill: '#505053'
+                    }
+                }
+            },
+    
+            // scroll charts
+            rangeSelector: {
+                buttonTheme: {
+                    fill: '#505053',
+                    stroke: '#000000',
+                    style: {
+                        color: '#CCC'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#707073',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        },
+                        select: {
+                            fill: '#000003',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                },
+                inputBoxBorderColor: '#505053',
+                inputStyle: {
+                    backgroundColor: '#333',
+                    color: 'silver'
+                },
+                labelStyle: {
+                    color: 'silver'
+                }
+            },
+    
+            navigator: {
+                handles: {
+                    backgroundColor: '#666',
+                    borderColor: '#AAA'
+                },
+                outlineColor: '#CCC',
+                maskFill: 'rgba(255,255,255,0.1)',
+                series: {
+                    color: '#7798BF',
+                    lineColor: '#A6C7ED'
+                },
+                xAxis: {
+                    gridLineColor: '#505053'
+                }
+            },
+    
+            scrollbar: {
+                barBackgroundColor: '#808083',
+                barBorderColor: '#808083',
+                buttonArrowColor: '#CCC',
+                buttonBackgroundColor: '#606063',
+                buttonBorderColor: '#606063',
+                rifleColor: '#FFF',
+                trackBackgroundColor: '#404043',
+                trackBorderColor: '#404043'
+            },
+    
+            // special colors for some of the
+            legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+            background2: '#505053',
+            dataLabelsColor: '#B0B0B3',
+            textColor: '#C0C0C0',
+            contrastTextColor: '#F0F0F3',
+            maskColor: 'rgba(255,255,255,0.3)'
+        };
+    
+        // Apply the theme
+        Highcharts.setOptions(Highcharts.theme);
+        
+        var borrowerChart = Highcharts.chart('container1', {
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Obligator Risk Rating'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: [{
+                categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: "white"
+                    }
+                },
+                title: {
+                    text: 'Obligator Risk Rating',
+                    style: {
+                        color: Highcharts.getOptions().colors[8]
+                    }
+                }
+            }],
+            tooltip: {
+                shared: true
+            },
+            // < !--legend: { -- >
+            //     < !--layout: 'vertical', -->
+            //     < !--align: 'center', -->
+            //     < !--verticalAlign: "top", -->
+            //     < !--x: 0, -->
+            //     < !--y: 0, -->
+            //     < !--floating: true, -->
+            //     < !--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)' -- >
+            // < !-- }, -->
+            series: [{
+                name: 'Obligator Risk Rating',
+                type: 'spline',
+                color: "#28e3e4",
+                data: [],
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'top'
+                        }
+                    }
+                }]
+            }
+        });
+
+        var IRMRChart = Highcharts.chart('container2', {
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'IR/MR Risk Rating'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: [{
+                categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: "white"
+                    }
+                },
+                title: {
+                    text: 'IR/MR Risk Rating',
+                    style: {
+                        color: "#b79222"
+                    }
+                }
+            }],
+            tooltip: {
+                shared: true
+            },
+            // < !--legend: { -- >
+            //     < !--layout: 'vertical', -->
+            //     < !--align: 'center', -->
+            //     < !--verticalAlign: "top", -->
+            //     < !--x: 0, -->
+            //     < !--y: 0, -->
+            //     < !--floating: true, -->
+            //     < !--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)' -- >
+            // < !-- }, -->
+            series: [{
+                name: 'IR/MR Risk Rating',
+                type: 'spline',
+                color: "#b79222",
+                data: [],
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'top'
+                        }
+                    }
+                }]
+            }
+        });
+        var collateralChart = Highcharts.chart('container3', {
+            chart: {
+                zoomType: 'xy'
+            },
+            title: {
+                text: 'Collateral Risk Rating'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: [{
+                categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+                crosshair: true
+            }],
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value}',
+                    style: {
+                        color: "white"
+                    }
+                },
+                title: {
+                    text: 'Collateral Risk Rating',
+                    style: {
+                        color: Highcharts.getOptions().colors[10]
+                    }
+                }
+            }],
+            tooltip: {
+                shared: true
+            },
+            // < !--legend: { -- >
+            //     < !--layout: 'vertical', -->
+            //     < !--align: 'center', -->
+            //     < !--verticalAlign: "top", -->
+            //     < !--x: 0, -->
+            //     < !--y: 0, -->
+            //     < !--floating: true, -->
+            //     < !--backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || 'rgba(255,255,255,0.25)' -- >
+            // < !-- }, -->
+            series: [{
+                name: 'Collateral Risk Rating',
+                type: 'spline',
+                color: Highcharts.getOptions().colors[10],
+                data: [],
+                tooltip: {
+                    valueSuffix: ''
+                }
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        // < !--legend: { -- >
+                        //     < !--layout: 'horizontal', -->
+                        //     < !--align: 'center', -->
+                        //     < !--verticalAlign: 'top' -- >
+                        // < !-- } -- >
+                    }
+                }]
+            }
+        });
+
+        var url = window.location.href;
+        var cp_id = getParameterByName("cp_id",url);
+        $.getJSON("/charts?cp_id=" + cp_id, function(pgdata) {
+            var borrowerLevelData = JSON.stringify(pgdata.borrowerLevelData);
+            var IRMRData = JSON.stringify(pgdata.IRMRData);
+            var collateralData = JSON.stringify(pgdata.collateralData);
+            
+            if(borrowerLevelData != undefined){
+                borrowerLevelData = borrowerLevelData.replace(/"([^"]+)":/g,function($0,$1){return ('"'+$1.toLowerCase()+'":');});
+                borrowerLevelData = JSON.parse(borrowerLevelData);
+
+                borrowerChart.update({
+                    series: [{
+                        data: borrowerLevelData
+                    }]
+                });
+            }
+
+            if(IRMRData != undefined){
+                IRMRData = IRMRData.replace(/"([^"]+)":/g,function($0,$1){return ('"'+$1.toLowerCase()+'":');});
+                IRMRData = JSON.parse(IRMRData);
+                
+                IRMRChart.update({
+                    series: [{
+                        data: IRMRData,
+                    }]
+                });
+            }
+
+            if(collateralData != undefined){
+                collateralData = collateralData.replace(/"([^"]+)":/g,function($0,$1){return ('"'+$1.toLowerCase()+'":');});
+                collateralData = JSON.parse(collateralData);
+                collateralChart.update({
+                    series: [{
+                        data: collateralData,
+                    }]
+                });
+            }
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }	
+    </script>
+        
+</body>
+</html>

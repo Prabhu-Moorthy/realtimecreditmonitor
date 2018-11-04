@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<title>EWS</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/slider.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
+<script> 
+    $(document).ready(function() { 	  
+	{ 
+		$("#dashboardTable")
+			.tablesorter({widthFixed: true, widgets: ['zebra']}); 
+        }
+        
+        $('#homeMenu').click(function(e){
+			e.preventDefault();
+			var form = $('<form method="POST" action="/auth"><input type="hidden" id="username" name="username" value="internal"/></form>');
+			$(document.body).append(form);
+			form.append('<input type="hidden" name="id" value="4"/>');
+			form.submit();
+		}); 
+	});
+</script>
+</head>
+<body>
+	<div id="container" class="width">
+		<header> 
+			<div class="width">
+				<img style="padding-top: 7px" src="images/EWSLogo.png" />
+				<nav>
+					<ul class="sf-menu dropdown">
+						<li class="selected"><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+						<li><a href="/chat"><i class="fa fa-comments"></i>Chat</a></li>
+						<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+					</ul>
+					<div class="clear"></div>
+				</nav>
+			</div>
+			<div class="clear"></div>
+		</header>
+		<div id="intro">
+			<div class="width">
+				<div class="intro-content">
+					<h2>News Analytics for Counterparty Credit Risk </h2>
+					<p>Latest News Captured From <%=data.domain%> for <%=data.cp_name%></p>
+				</div>
+			</div>    
+		</div>
+		<div id="body" class="width">
+			<section id="content" class="single-column">
+				<table id="dashboardTable" class="tablesorter" >
+					<thead>
+						<tr>
+							<th>Title of the Article</th>
+							<th>EWS Analytic Score</th>
+							<th>Time when Published</th>
+							<th>Time when Picked by the System</th>
+							<th>Persons Notified </th>
+						</tr>
+					</thead>
+					<tbody>
+                    <% if(data.nll && data.nll.length){ 
+                        for(var i = 0;i < data.nll.length;i++) { %>
+						<tr>
+							<td><a href="<%=data.nll[i].NR_NEWS_URL%>" target="_blank"><%=data.nll[i].NR_NEWS_HEADER%></a></td>
+                            <td><%=data.nll[i].NR_SCORE%></td>
+                            <td><%=data.nll[i].NR_PBLSH_DTTIME%></td>
+                            <td><%=data.nll[i].NR_CAPTURE_DTTIME%></td>
+                            <td><%=data.nll[i].CLM_RISK_OFFICER%></td>
+						</tr>
+						<% }
+							}else{ %>
+						<tr>
+							<td colspan="1">No Data</td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+				<div>
+					<table style="width:215px;float:right;font-size: 12px">
+						<tr>
+							<td>
+								A notification will be sent to the Risk Officer when the CNA Score is more than or equal to 80
+							</td>
+						</tr>
+					</table>
+				</div>
+				<% if(data.length && data.length > 20){ %>
+				<div id="pager" class="pager" style="padding-bottom: 20px">
+					<form>
+						<img src="images/first.png" class="first"/>
+						<img src="images/prev.png" class="prev"/>
+						<input type="text" value="1/1" class="pagedisplay" disabled="true"/>
+						<img src="images/next.png" class="next"/>
+						<img src="images/last.png" class="last"/>
+						<select class="pagesize">
+							<option value="10">10 per page</option>
+							<option value="15">15 per page</option>
+							<option value="20" selected>20 per page</option>
+							<option value="50">50 per page</option>
+						</select>
+					</form>
+				</div>
+				<% } %>
+			</section>        
+			<div class="clear"></div>
+		</div>
+		<footer class="width">
+			<div class="footer-bottom">
+				<p>TCS 2017 <a href="http://tcs.com/">Early Warning System</a> by TCS</p>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

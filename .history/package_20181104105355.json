@@ -1,0 +1,26 @@
+{
+  "name": "NodejsStarterApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cfenv": "1.0.x",
+    "cheerio": "^1.0.0-rc.2",
+    "ejs": "^2.5.5",
+    "express": "4.13.x",
+    "ibm_db": "git://github.com/ibmdb/node-ibm_db.git",
+    "path": "^0.12.7",
+    "promise": "^8.0.1",
+    "request": "^2.81.0",
+    "url-parse": "^1.1.9",
+    "vcap_services": "^0.1.7",
+    "watson-developer-cloud": "^2.14.4"
+  },
+  "repository": {},
+  "engines": {
+    "node": "4.x"
+  }
+}

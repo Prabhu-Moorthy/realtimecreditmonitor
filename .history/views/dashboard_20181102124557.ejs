@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<title>CCRM</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="js/tablesorter/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="js/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+
+<script> 
+	$(document).ready(function() { 
+    	$("#dashboardTable") 
+    	.tablesorter({widthFixed: true, widgets: ['zebra']}) 
+    	.tablesorterPager({container: $("#pager")}); 
+}); 
+</script>
+</head>
+<body>
+	<div id="container" class="width">
+		<header> 
+			<div class="width">
+				<img style="padding-top: 7px" src="images/EWSLogo.png" />
+				<nav>
+					<ul class="sf-menu dropdown">
+						<li class="selected"><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+						<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+					</ul>
+					<div class="clear"></div>
+				</nav>
+			</div>
+			<div class="clear"></div>
+		</header>
+		<div id="intro">
+			<div class="width">
+				<div class="intro-content">
+					<h2>News Analytics for Counterparty Credit Risk</h2>
+					<p></p>
+				</div>
+			</div>    
+		</div>
+		<div id="body" class="width">
+			<section id="content" class="single-column">
+				<table id="dashboardTable" class="tablesorter" >
+					<thead>
+						<tr>
+							<th>Counterparty Name</th>
+							<th>Group Name</th>
+							<th>Current Obligor Risk Rating</th>
+							<th style="width:10%">Previous Obligor Risk Rating</th>
+							<th style="width:10%">Current Collateral Risk Rating</th>
+							<th style="width:10%">Previous Collateral Risk Rating</th>
+							<th style="width:10%">Current MR & IR</th>
+							<th style="width:10%">Previous MR & IR</th>
+							<th style="width:10%">Last Refresh Time</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% if(data.length){ 
+						for(var i = 0;i < data.length;i++) {%>
+						<tr>
+							<td><a href="bootstrap?cp_id=<%=data[i].CM_CP_ID%>&cp_name=<%=data[i].CM_CP_NAME%>"><%=data[i].CM_CP_NAME%></a></td>
+							<td><%=data[i].CM_ULT_PARNT_NAME%></td>
+							<td style="text-align:right"><%=data[i].CM_CRNT_OBLI_RATING%></td>
+							<td style="text-align:right"><%=data[i].CM_PREV_OBLI_RATING %></td>
+							<td style="text-align:right"><%=data[i].CM_CRNT_CLTRL_RATING%></td>
+							<td style="text-align:right"><%=data[i].CM_PREV_CLTRL_RATING%></td>
+							<td style="text-align:right"><%=data[i].CM_CRNT_MR_IR%></td>
+							<td style="text-align:right"><%=data[i].CM_PREV_MR_IR%></td>
+							<td style="text-align:right"><%=data[i].CM_LAST_REFRESH_TIME%></td>
+						</tr>
+						<% }
+							}else{ %>
+						<tr>
+							<td colspan="1">No Data</td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+				<div>
+					<table style="width:215px;float:right;font-size: 12px">
+						<tr>
+							<td>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<% if(data.length && data.length > 20){ %>
+				<div id="pager" class="pager" style="padding-bottom: 20px">
+					<form>
+						<img src="images/first.png" class="first"/>
+						<img src="images/prev.png" class="prev"/>
+						<input type="text" value="1/1" class="pagedisplay" disabled="true"/>
+						<img src="images/next.png" class="next"/>
+						<img src="images/last.png" class="last"/>
+						<select class="pagesize">
+							<option value="10">10 per page</option>
+							<option value="15" selected>15 per page</option>
+							<option value="20">20 per page</option>
+							<option value="50">50 per page</option>
+						</select>
+					</form>
+				</div>
+				<% } %>
+			</section>        
+			<div class="clear"></div>
+		</div>
+		<footer class="width">
+			<div class="footer-bottom">
+				<p>TCS 2018 <a href="http://tcs.com/">Commercial Credit Risk Monitoring</a> by TCS</p>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>

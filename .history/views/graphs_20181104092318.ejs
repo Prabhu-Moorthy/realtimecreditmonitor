@@ -1,0 +1,165 @@
+<!doctype html>
+<html>    
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<title>RCRM</title>
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link rel="stylesheet" href="css/style_graph.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/slider.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+<script> 
+    $(document).ready(function() { 	  
+	{ 
+		$("#dashboardTable")
+			.tablesorter({widthFixed: true, widgets: ['zebra']})
+			.tablesorterPager({container: $("#pager")}); 
+		} 
+	});
+</script>
+</head>
+<body>
+<div id="container" class="width">
+    <header> 
+		<div class="width">
+			<h1><a href="/">Real - time Credit Risk Monitor<strong> by TCS</strong></a></h1>
+			<nav>
+				<ul class="sf-menu dropdown">
+				</ul>
+				<div class="clear"></div>
+			</nav>
+		</div>
+		<div class="clear"></div>
+    </header>
+    <div id="intro">
+		<div class="width">
+			<div class="intro-content">
+				<h2>Real - time Credit Risk Monitor </h2>
+            </div>
+		</div>    
+	</div>
+    
+	<div class="container graphtitlecontainer">
+		<div class="rows graphpagetitle">
+			<span style="position:relative;left:0%;"><b style="color:#00A6EB;font-weight:bold">Industry : </b>Energy, Oil and Gas</span> 
+			<span style="position:relative;left:15%;"><b style="color:#00A6EB;font-weight:bold">Month : </b> October</span> 
+			<span style="position:relative;left:25%;"><b style="color:#00A6EB;font-weight:bold">Industry Rating and Macro Economic Rating : </b><%=data.PR_RATING_MR_AND_IR%></span> 
+		</div>
+	</div>
+	
+	<div class="container graphcontainer">
+		<div class="subcontainer1">
+			<div id="container1" style="height: 400px"> </div>
+		</div>
+		<div class="subcontainer2">
+			<div id="container2" style="height: 400px"> </div>
+		</div>
+	</div>
+	<a class="myanchor" href="/dashboard">View Dashboard</a>
+	
+    <footer class="width">
+        <div class="footer-bottom">
+            <p>TCS 2018<a href="http://tcs.com/">Real - Time Credit Risk Monitor</a> by TCS</p>
+         </div>
+    </footer>
+</div>
+</body>
+
+<!-- chart code -->
+<script>
+//Make HTTP call to backend and get db data , calll drawchart1(range1,range2,range3)
+//Make HTTP call to backend and get db data , calll drawchart2(range1,range2,range3)
+drawchart1(4,21,4);
+drawchart2(13,23,4);
+function drawchart1(value1,value2,value3){
+	Highcharts.chart('container1', {
+	  chart: {
+		type: 'pie',
+		options3d: {
+		  enabled: true,
+		  alpha: 45
+		}
+	  },
+	  credits: {
+		enabled: false
+	  },
+	  title: {
+		text: 'Obligator Risk Rating'
+	  },
+	  subtitle: {
+		text: 'The rating has been arrived by analyzing counterparty specific news articles available in the public domain. The news articles have been categorized as Red, Amber and Green based on the calculated News Analytics score.'
+	  },
+	  plotOptions: {
+		pie: {
+		  innerSize: 100,
+		  depth: 45
+		}
+	  },
+	  colors: ['#33af33', '#FFC200 ', '#FF0000'],
+	  exporting: { enabled: false },
+	  series: [{
+		name: 'Count',
+		data: [
+		  ['0-40', value1],
+		  ['41-80', value2],
+		  ['>80', value3]
+		]
+	  }]
+	});
+}
+
+function drawchart2(value1,value2,value3){
+	Highcharts.chart('container2', {
+	  chart: {
+		type: 'pie',
+		options3d: {
+		  enabled: true,
+		  alpha: 45
+		}
+	  },
+	  credits: {
+		enabled: false
+	  },
+	  title: {
+		text: 'Collateral Risk Rating'
+	  },
+	  subtitle: {
+		text: 'Monitoring the changes in the collateral value provided by the counterparty due to the volatility in the debt/equity market.'
+	  },
+	  plotOptions: {
+		pie: {
+		  innerSize: 100,
+		  depth: 45
+		}
+	  },
+	  colors: ['#33af33', '#FFC200 ', '#FF0000'],
+	  exporting: { enabled: false },
+	  series: [{
+		name: 'Count',
+		data: [
+		  ['1-2', value1],
+		  ['3-4', value2],
+		  ['>4', value3]
+		]
+	  }]
+	});
+}
+</script>
+
+</html>

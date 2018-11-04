@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<title>RCRM</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" href="css/reset.css" type="text/css" />
+<link rel="stylesheet" href="css/styles.css" type="text/css" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/jqcloud.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/slider.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.js"></script> 
+<script type="text/javascript" src="js/jquery.tablesorter.pager.js"></script>
+<script type="text/javascript" src="js/jqcloud-1.0.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"> </script>
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"> </script>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="js/chart.js"> </script>
+<script> 
+	var word_list = [{text:"Prabhu", weight:13},{text:"Sakthi",weight:8}];
+	var url = window.location.href;
+	var cp_id = getParameterByName("cp_id",url);
+
+	$.getJSON("/tag?cp_id=" + cp_id, function(pgdata) {
+		alert("returning");
+		var tagData = JSON.stringify(pgdata.tags);
+		if(tagData != undefined){
+			tagData = tagData.replace(/"([^"]+)":/g,function($0,$1){return ('"'+$1.toLowerCase()+'":');});
+			tagData = JSON.parse(tagData);
+			tagData.map(function(x){
+				var orientation = x.orientation;
+				if(orientation === "v"){
+					delete x.orientation;
+					var orientation_string = {class: "vertical"};
+					x.html = orientation_string;
+				}else{
+					delete x.orientation;
+				}
+				return x;
+			});
+			$('#tag_cloud').jQCloud(tagData);
+		}
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}	
+
+    $(document).ready(function() {
+	{ 
+		$("#dashboardTable")
+			.tablesorter({widthFixed: true, widgets: ['zebra']}); 
+		}
+
+		$('#homeMenu').click(function(e){
+			e.preventDefault();
+			var form = $('<form method="POST" action="/auth"><input type="hidden" id="username" name="username" value="internal"/></form>');
+			$(document.body).append(form);
+			form.append('<input type="hidden" name="id" value="4"/>');
+			form.submit();
+		});    
+
+	});
+</script>
+<style type="text/css">
+	div.jqcloud span.vertical {
+	  -webkit-writing-mode: vertical-rl;
+	  writing-mode: tb-rl;
+	}
+
+	#chartdiv {
+		background-color: #30303d; 
+		color: #fff;
+		width: 100%;
+		height: 500px;
+	}
+
+	#chartdiv2 {
+		background-color: #30303d;
+		color: #fff;
+		width: 100%;
+		height: 500px;
+	}	
+</style>
+</head>
+<body ng-app="myApp" ng-controller="myctrl">
+	<div id="container" class="width">
+			<header> 
+					<div class="width">
+							<img style="padding-top: 7px" src="images/EWSLogo.png" />
+							<nav>
+									<ul class="sf-menu dropdown">
+										<li><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+										<li><a href="/chat"><i class="fa fa-comments"></i>Chat</a></li>
+										<li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+									</ul>
+									<div class="clear"></div>
+							</nav>
+					</div>
+					<div class="clear"></div>
+			</header>
+			<div id="intro">
+					<div class="width">
+							<div class="intro-content">
+									<h2>News Analytics for Credit Risk </h2>
+									<p>News Analytics Details for <%=data.cp_name%></p>
+							</div>
+					</div>    
+			</div>
+			<div id="body" class="width">
+				<section id="content" class="two-column with-right-sidebar">
+					
+					<div style="padding-top:5px">
+						<center><span class="my-h4">Main Sources</span></center>
+						<table id="dashboardTable" class="tablesorter">
+								<thead>
+										<tr>                               
+												<th>Source</th>
+												<th>Type</th>
+												<th>Geography</th>
+												<th style="width:7%">Negative Article</th>
+												<th>Total Score</th>
+												<th>Last Referred</th>
+										</tr> 
+								</thead>
+								<tbody>
+										<% if(data.msl && data.msl.length){ 
+										for(var i = 0;i < data.msl.length;i++) { %>
+										<tr>
+												<td><a href="newslinks?cp_name=<%=data.cp_name%>&cp_id=<%=data.cp_id%>&domain=<%=data.msl[i].NS_DOMAIN_NAME%>"><%=data.msl[i].NS_DOMAIN_NAME%></a></td>
+												<td><%=data.msl[i].Type%></td>
+												<td><%=data.msl[i].NS_GEOGRAPHY%></td>
+												<td style="text-align:right"><%=data.msl[i].NR_SCORE%></td>
+												<td style="text-align:right"><%=data.msl[i].NS_SCORE%></td>
+												<td><%=data.msl[i].NR_CAPTURE_DTTIME%></td>
+										</tr>
+										<% }
+												}else{ %>
+										<tr>
+												<td colspan="8">No Data</td>
+										</tr>
+										<% } %>
+								</tbody>
+						</table>
+						<% if(data.length && data.length > 20){ %>
+						<div id="pager" class="pager">
+								<form>
+										<img src="images/first.png" class="first"/>
+										<img src="images/prev.png" class="prev"/>
+										<input type="text" value="1/1" class="pagedisplay" disabled="true"/>
+										<img src="images/next.png" class="next"/>
+										<img src="images/last.png" class="last"/>
+										<select class="pagesize">
+												<option value="10">10 per page</option>
+												<option value="15">15 per page</option>
+												<option value="20 selected">20 per page</option>
+												<option value="50">50 per page</option>
+										</select>
+								</form>
+						</div>
+						<% } %>
+					</div>
+				</section>
+				<aside class="sidebar big-sidebar right-sidebar" style="padding-bottom:13px">
+					<div>
+						<center style="padding-top: 10px;"><span class="my-h4">Latest News</span></center>
+						<table id="dashboardTable" class="tablesorter">
+								<thead>
+										<tr>                               
+												<th>News Header</th>
+												<th>Publish Date Time</th>
+										</tr>
+								</thead>
+								<tbody>
+										<% if(data.nhl && data.nhl.length){ 
+										for(var i = 0;i < data.nhl.length;i++) { %>
+										<tr>
+												<td><%=data.nhl[i].NR_NEWS_HEADER%></td>
+												<td><%=data.nhl[i].NR_PBLSH_DTTIME%></td>
+										</tr>
+										<% }
+												}else{ %>
+										<tr>
+												<td colspan="2">No Data</td>
+										</tr>
+										<% } %>
+								</tbody>
+						</table>
+					</div>
+        </aside>
+				<div>
+					<table id="growthMasterTable" class="tablesorter">
+								<thead>
+										<tr>                               
+												<th>LTV</th>
+												<th>Historical LTV</th>
+										</tr>
+								</thead>
+								<tbody>
+										<% if(data.gm && data.nhl.gm){ 
+										for(var i = 0;i < data.nhl.length;i++) { %>
+										<tr>
+												<td><%=data.gm[i].GR_CRNT_LTV%></td>
+												<td><%=data.gm[i].GR_HIST_LTV1%></td>
+										</tr>
+										<% }
+												}else{ %>
+										<tr>
+												<td colspan="2">No Data</td>
+										</tr>
+										<% } %>
+								</tbody>
+						</table>
+					</div>
+			</div>
+			<footer class="width">
+							<div class="footer-bottom">
+									<p>TCS 2018 <a href="http://tcs.com/"> Real - Time Credit Risk Monitor </a> by TCS</p>
+							</div>
+			</footer>
+	</div>	
+</body>
+</html>

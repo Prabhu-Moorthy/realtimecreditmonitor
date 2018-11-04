@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<title>EWS</title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta property="og:image" content="conversation.svg" />
+  <meta property="og:title" content="Conversation Chat Simple" />
+  <meta property="og:description" content="Sample application that shows how to use the Conversation API to identify user intents" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="css/chat/app.css"/>
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine"/>
+  <link rel="stylesheet" href="css/reset.css" type="text/css" />
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style_sort.css" type="text/css" />
+  <script type="text/javascript" src="js/slider.js"></script>
+  <script type="text/javascript" src="js/superfish.js"></script>
+  <script type="text/javascript" src="js/custom.js"></script>
+  <script type="text/javascript" src="js/tablesorter/jquery-latest.js"></script> 
+</head>
+<body>
+  <div id="container" class="width">
+    <header> 
+      <div class="width">
+        <img style="padding-top: 7px" src="images/EWSLogo.png" />
+        <nav>
+          <ul class="sf-menu dropdown">
+            <li><a href="#" id="homeMenu"><i class="fa fa-home"></i>Home</a></li>
+            <li class="selected"><a href="/chat"><i class="fa fa-comments"></i>Chat</a></li>
+            <li><a href="/"><i class="fa fa-sign-out"></i> Logout</a></li>
+          </ul>
+          <div class="clear"></div>
+        </nav>
+      </div>
+      <div class="clear"></div>
+    </header>
+    <div id="body" class="width" style="min-height: 580px;">
+        <div style="top: 12%;left: 7%;position: absolute;">
+            <img style="margin:-15px;" width="550px;" height="700px;" src="/images/new.gif" />
+        </div>
+        <div class="responsive-columns-wrapper" style="height: 550px;">
+          <div id="chatMainColumn" style="left: 35%;position: relative;">
+            <div class="chat-column" style="background-color : #6f7784;">
+              <div id="scrollingChat"></div>
+              <div>
+                <table class="w3-table" style="table-layout:fixed; overflow:hidden; white-space: nowrap;">
+                  <col width="15%" />
+                  <col width="85%" />
+                  <tr>
+                    <td><img id="micButton" class="micButton" src="images/chat/mic_small.png" alt="Mic" style="width:100%"></td>
+                    <td>
+                      <label for="textInput" class="inputOutline" >
+                        <input id="textInput" class="input responsive-column" style="color: #ff0000;"
+                          placeholder="Click on mic to speak or type" type="text" 
+                          onkeydown="ConversationPanel.inputKeyDown(event, this)">
+                      </label>
+                    </td>
+                  </tr>
+                </table>        
+              </div>
+            </div>
+          </div>
+          <div id="payload-column" class="fixed-column content-column" style="display:none">
+            <div id="payload-initial-message">
+              Type something to see the output
+            </div>
+            <div id="payload-request" class="payload"></div>
+            <div id="payload-response" class="payload"></div>
+          </div>
+        </div>
+        <div style="top: 9%;right: 8%;position: absolute;max-width: 23%;">
+			
+            <div class="faq-heading" style="text-align : center;">Frequently Asked Questions </div>
+            <ul class="listStyle" style="list-style-type: none;padding:0;margin:0">
+              <div class="faq-elements" ><li style="cursor: pointer"><span class="t">What is the business definition for CNA score ?</span></li></div>
+              <div class="faq-elements" ><li style="cursor: pointer"><span class="t">What are the senior management daily and intraday reports available for counterparty risk management and their availability time ?</span></li></div>
+              <div class="faq-elements" ><li style="cursor: pointer"><span class="t">What are the criteria’s of connected counterparties as per Basel committee ?</span></li></div>
+              <div class="faq-elements" ><li style="cursor: pointer"><span class="t">What is the frequency of reviewing and updating connected counterparty list master ?</span></li></div>
+              <div class="faq-elements" ><li style="cursor: pointer"><span class="t">What are the comparable rating symbols for junk category bonds for S&P, Fitch and Moody’s ?</span></li></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+      
+    </div>
+    <footer class="width">
+        <div class="footer-bottom">
+          <p>TCS 2017 <a href="http://tcs.com/">Early Warning System</a> by TCS</p>
+        </div>
+    </footer>
+  </div>
+  <script src="js/chat/common.js"></script>
+  <script src="js/chat/api.js"></script>
+  <script src="js/chat/conversation.js"></script>
+  <script src="js/chat/payload.js"></script>
+  <script src="js/chat/global.js"></script>
+  <script src="js/chat/speech.js"></script>
+  <script src="js/chat/stt.js"></script>
+  <script> 
+    $(document).ready(function() 
+    {
+      $('ul.listStyle li').click(function(e) 
+      { 
+        var question = $(this).find("span.t").text();
+        document.getElementById("textInput").value = question;
+        var e = jQuery.Event("keypress");
+        e.which = 13; //choose the one you want
+        e.keyCode = 13;
+        ConversationPanel.inputKeyDown(e, document.getElementById("textInput"));
+      });
+
+      $('#homeMenu').click(function(e){
+        e.preventDefault();
+        var form = $('<form method="POST" action="/auth"><input type="hidden" id="username" name="username" value="internal"/></form>');
+        $(document.body).append(form);
+        form.append('<input type="hidden" name="id" value="4"/>');
+        form.submit();
+      });  
+ });
+          
+  </script>
+</body>
+</html>
